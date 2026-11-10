@@ -1,0 +1,264 @@
+{
+  "utc": "2026-11-10T09:29:08.319670+00:00",
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "run_url": "https://github.com/Alex-965/safety/actions/runs/42790952005",
+  "success": true,
+  "sections": [
+    {
+      "title": "01 Environment and root privileges",
+      "commands": [
+        {
+          "user": "root",
+          "command": "cat /etc/os-release; uname -sr; id; whoami",
+          "output": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\nLinux 7.0.0-1017-azure\nuid=0(root) gid=0(root) groups=0(root)\nroot\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "runner",
+          "command": "sudo -n su -c 'id; whoami'",
+          "output": "uid=0(root) gid=0(root) groups=0(root)\nroot\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "02 Create HR group",
+      "commands": [
+        {
+          "user": "root",
+          "command": "groupadd HR; getent group HR",
+          "output": "HR:x:1002:\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "cat /etc/group > '/home/runner/work/safety/safety/lab4/results/etc-group.txt'; tail -n 6 /etc/group",
+          "output": "mysql:x:116:\npostgres:x:117:\ndocker:x:118:runner\npacker:x:1000:\nrunner:x:1001:\nHR:x:1002:\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "03 Create jenny and kobzei",
+      "commands": [
+        {
+          "user": "root",
+          "command": "adduser --disabled-password --gecos 'Jenny' jenny",
+          "output": "info: Adding user `jenny' ...\ninfo: Selecting UID/GID from range 1000 to 59999 ...\ninfo: Adding new group `jenny' (1003) ...\ninfo: Adding new user `jenny' (1003) with group `jenny (1003)' ...\ninfo: Creating home directory `/home/jenny' ...\ninfo: Copying files from `/etc/skel' ...\ninfo: Adding new user `jenny' to supplemental / extra groups `users' ...\ninfo: Adding user `jenny' to group `users' ...\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "adduser --disabled-password --gecos 'Oleksandr Kobzei' kobzei",
+          "output": "info: Adding user `kobzei' ...\ninfo: Selecting UID/GID from range 1000 to 59999 ...\ninfo: Adding new group `kobzei' (1004) ...\ninfo: Adding new user `kobzei' (1004) with group `kobzei (1004)' ...\ninfo: Creating home directory `/home/kobzei' ...\ninfo: Copying files from `/etc/skel' ...\ninfo: Adding new user `kobzei' to supplemental / extra groups `users' ...\ninfo: Adding user `kobzei' to group `users' ...\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "printf 'jenny:lasocial\\nkobzei:tooth\\n' | chpasswd",
+          "output": "",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "usermod -aG HR jenny; usermod -aG HR kobzei; id jenny; id kobzei; getent group HR",
+          "output": "uid=1003(jenny) gid=1003(jenny) groups=1003(jenny),100(users),1002(HR)\nuid=1004(kobzei) gid=1004(kobzei) groups=1004(kobzei),100(users),1002(HR)\nHR:x:1002:jenny,kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "04 Verify passwd and shadow",
+      "commands": [
+        {
+          "user": "root",
+          "command": "cat /etc/passwd > '/home/runner/work/safety/safety/lab4/results/etc-passwd.txt'; getent passwd jenny kobzei",
+          "output": "jenny:x:1003:1003:Jenny,,,:/home/jenny:/bin/bash\nkobzei:x:1004:1004:Oleksandr Kobzei,,,:/home/kobzei:/bin/bash\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "cat /etc/shadow > '/home/runner/work/safety/safety/lab4/results/etc-shadow.txt'; getent shadow jenny kobzei",
+          "output": "jenny:$y$j9T$slNkUOUkuTyHa71qL9fSS0$CCRiNcS4Q3mViTwt5TI7Wae137TTQv1DaXy5U4V0Qg1:20767:0:99999:7:::\nkobzei:$y$j9T$jeIkVOyavRohdsadbosFz0$wTPWZe2S6cpgWHhckttOpJQkfBSfTTZeCDpTZYvPKf/:20767:0:99999:7:::\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "passwd -S jenny; passwd -S kobzei; stat -c '%a %U:%G %n' /etc/passwd /etc/shadow",
+          "output": "jenny P 2026-11-10 0 99999 7 -1\nkobzei P 2026-11-10 0 99999 7 -1\n644 root:root /etc/passwd\n640 root:shadow /etc/shadow\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "05 Real password authentication through su",
+      "commands": [
+        {
+          "user": "root",
+          "command": "runuser -u runner -- su - jenny -c 'whoami; id; pwd'",
+          "output": "Password: [hidden]\n \njenny\nuid=1003(jenny) gid=1003(jenny) groups=1003(jenny),100(users),1002(HR)\n/home/jenny\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "runuser -u runner -- su - kobzei -c 'whoami; id; pwd'",
+          "output": "Password: [hidden]\n \nkobzei\nuid=1004(kobzei) gid=1004(kobzei) groups=1004(kobzei),100(users),1002(HR)\n/home/kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "06 Adapt modern home permissions for baseline",
+      "commands": [
+        {
+          "user": "root",
+          "command": "ls -ld /home/jenny /home/kobzei; stat -c '%a %U:%G %n' /home/jenny /home/kobzei",
+          "output": "drwxr-x---+ 8 jenny  jenny  4096 Nov 10 09:29 /home/jenny\ndrwxr-x---+ 8 kobzei kobzei 4096 Nov 10 09:29 /home/kobzei\n750 jenny:jenny /home/jenny\n750 kobzei:kobzei /home/kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "getfacl -cp /home/jenny /home/kobzei",
+          "output": "user::rwx\nuser:runner:rwx\t#effective:r-x\ngroup::r-x\nmask::r-x\nother::---\ndefault:user::rwx\ndefault:user:runner:rwx\ndefault:group::r-x\ndefault:mask::rwx\ndefault:other::r-x\n\nuser::rwx\nuser:runner:rwx\t#effective:r-x\ngroup::r-x\nmask::r-x\nother::---\ndefault:user::rwx\ndefault:user:runner:rwx\ndefault:group::r-x\ndefault:mask::rwx\ndefault:other::r-x\n\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "setfacl -b -k /home/jenny /home/kobzei; getfacl -cp /home/kobzei",
+          "output": "user::rwx\ngroup::r-x\nother::---\n\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "root",
+          "command": "chmod 755 /home/jenny /home/kobzei; ls -ld /home/jenny /home/kobzei",
+          "output": "drwxr-xr-x 8 jenny  jenny  4096 Nov 10 09:29 /home/jenny\ndrwxr-xr-x 8 kobzei kobzei 4096 Nov 10 09:29 /home/kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "07 Jenny can traverse kobzei home at 755",
+      "commands": [
+        {
+          "user": "jenny",
+          "command": "cd /home/jenny; pwd; cd ..; ls -ld jenny kobzei; cd kobzei; pwd; cd ..; pwd",
+          "output": "/home/jenny\ndrwxr-xr-x 8 jenny  jenny  4096 Nov 10 09:29 jenny\ndrwxr-xr-x 8 kobzei kobzei 4096 Nov 10 09:29 kobzei\n/home/kobzei\n/home\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "08 Remove others execute symbolically",
+      "commands": [
+        {
+          "user": "root",
+          "command": "cd /home; chmod o-x kobzei; ls -ld kobzei; stat -c '%a %U:%G %n' kobzei",
+          "output": "drwxr-xr-- 8 kobzei kobzei 4096 Nov 10 09:29 kobzei\n754 kobzei:kobzei kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "jenny",
+          "command": "cd /home; cd kobzei",
+          "output": "bash: line 1: cd: kobzei: Permission denied\n",
+          "exit_code": 1,
+          "expected_exit_code": 1
+        }
+      ]
+    },
+    {
+      "title": "09 Owner sets absolute mode 705 and creates test file",
+      "commands": [
+        {
+          "user": "kobzei",
+          "command": "cd /home/kobzei; pwd; cd ..; ls -ld kobzei; chmod 705 kobzei; ls -ld kobzei; cd kobzei; umask 022; touch test.txt; ls -l test.txt",
+          "output": "/home/kobzei\ndrwxr-xr-- 8 kobzei kobzei 4096 Nov 10 09:29 kobzei\ndrwx---r-x 8 kobzei kobzei 4096 Nov 10 09:29 kobzei\n-rw-r--r-- 1 kobzei kobzei 0 Nov 10 09:29 test.txt\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "10 Jenny can read but cannot create a file",
+      "commands": [
+        {
+          "user": "jenny",
+          "command": "cd /home; ls -ld kobzei; cd kobzei; pwd; ls -l test.txt; cat test.txt",
+          "output": "drwx---r-x 8 kobzei kobzei 4096 Nov 10 09:29 kobzei\n/home/kobzei\n-rw-r--r-- 1 kobzei kobzei 0 Nov 10 09:29 test.txt\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "jenny",
+          "command": "cd /home/kobzei; touch jenny.txt",
+          "output": "touch: cannot touch 'jenny.txt': Permission denied\n",
+          "exit_code": 1,
+          "expected_exit_code": 1
+        }
+      ]
+    },
+    {
+      "title": "11 Group class priority at 705",
+      "commands": [
+        {
+          "user": "root",
+          "command": "id jenny; stat -c '%a %U:%G %n' /home/kobzei; chgrp HR /home/kobzei; ls -ld /home/kobzei",
+          "output": "uid=1003(jenny) gid=1003(jenny) groups=1003(jenny),100(users),1002(HR)\n705 kobzei:kobzei /home/kobzei\ndrwx---r-x 8 kobzei HR 4096 Nov 10 09:29 /home/kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "jenny",
+          "command": "cd /home/kobzei",
+          "output": "bash: line 1: cd: /home/kobzei: Permission denied\n",
+          "exit_code": 1,
+          "expected_exit_code": 1
+        },
+        {
+          "user": "root",
+          "command": "chgrp kobzei /home/kobzei; stat -c '%a %U:%G %n' /home/kobzei",
+          "output": "705 kobzei:kobzei /home/kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        },
+        {
+          "user": "jenny",
+          "command": "cd /home/kobzei; pwd",
+          "output": "/home/kobzei\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    },
+    {
+      "title": "12 Final verification",
+      "commands": [
+        {
+          "user": "root",
+          "command": "id jenny; id kobzei; getent group HR; stat -c '%a %U:%G %n' /home/kobzei /home/kobzei/test.txt; test ! -e /home/kobzei/jenny.txt; echo 'jenny.txt absent: PASS'",
+          "output": "uid=1003(jenny) gid=1003(jenny) groups=1003(jenny),100(users),1002(HR)\nuid=1004(kobzei) gid=1004(kobzei) groups=1004(kobzei),100(users),1002(HR)\nHR:x:1002:jenny,kobzei\n705 kobzei:kobzei /home/kobzei\n644 kobzei:kobzei /home/kobzei/test.txt\njenny.txt absent: PASS\n",
+          "exit_code": 0,
+          "expected_exit_code": 0
+        }
+      ]
+    }
+  ]
+}

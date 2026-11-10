@@ -1,0 +1,9 @@
+TASK 4  RSA OAEP SHA256 / UTF-8 / Base64
+Key: 2048 bits; plaintext block <= 190 bytes; ciphertext block = 256 bytes
+given: 130 bytes; 1 blocks; match=True
+Original: Cryptography is fun and educational! Learning RSA encryption and decryption with Python helps understand public key cryptosystems.
+Base64: oezpg5RsegNK3K4IA3c1BsSzM8g+8Ac/V+Mkri9xEieKlh7U6fCZmpyb7GTergs7M3/9049T+UegFUlFgaTz7vK/W1vjwRtpZlASdEL66NbJci0z17kWXKvjPefTHeECxjJsGjU7Kuu76A4wXmgw8FO/XKPb2LhNWXRP7FaL3mWCg101uSaRuQHFgE7/qG6JGG+czY0UPDfE3xEjMPmO2M2cO0VDxJOnUprodP5lhCKGxAAkFnVwZS0Vouc6Tc/evbWPULUUZTAVv4nyiJLVaa/kO1VApLMJyvef0HEiMMCd5P1qrTavMpGaqu8QZeBucqWtVleqvLQ4oBycUMKjaQ==
+Decrypted: Cryptography is fun and educational! Learning RSA encryption and decryption with Python helps understand public key cryptosystems.
+ukrainian: 90 bytes; 1 blocks; match=True
+long: 12300 bytes; 65 blocks; match=True
+empty: 0 bytes; 0 blocks; match=True

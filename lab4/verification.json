@@ -1,0 +1,11 @@
+{
+  "student": "Кобзей Олександр Юрійович",
+  "group": "ІПЗ-41",
+  "python_local": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "cryptography_local": "50.0.2",
+  "cloud_run": "https://github.com/Alex-965/safety/actions/runs/42790952005",
+  "cloud_source_commit": "2c848cc31a809b63dc0211d05186d75913959082",
+  "evidence_artifact_sha256": "06ac03eab8a5896d795ab3354f57a055f21d8c6c58474f5dd6508a99b12e602b",
+  "report_pages": 17,
+  "evidence_note": "Actual execution logs viewed in a read-only terminal journal page and captured with a headless browser."
+}

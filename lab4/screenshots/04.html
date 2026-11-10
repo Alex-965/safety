@@ -1,0 +1,29 @@
+<!doctype html><html lang="uk"><meta charset="utf-8"><title>04 Verify passwd and shadow</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#11151b;color:#e8edf3;font-family:Consolas,'Courier New',monospace;width:1280px;height:900px;overflow:hidden}header{height:62px;padding:17px 28px;background:#222a35;font:22px 'Segoe UI',sans-serif;color:#fff}.sub{height:42px;padding:8px 28px;color:#a4b6c8;font:17px 'Segoe UI',sans-serif}pre{margin:0;padding:8px 28px;white-space:pre;font:25px/28px Consolas,'Courier New',monospace}footer{position:absolute;bottom:0;width:100%;height:34px;background:#222a35;padding:8px 28px;font:15px 'Segoe UI',sans-serif;color:#bcc9d7}</style>
+<header>04 Verify passwd and shadow</header><div class="sub">Кобзей Олександр • ІПЗ-41 • Перегляд фактичного журналу виконання</div>
+<pre>[root] $ cat /etc/passwd &gt; 
+&#x27;/home/runner/work/safety/safety/lab4/results/etc-passwd.txt&#x27;; getent passwd 
+jenny kobzei
+jenny:x:1003:1003:Jenny,,,:/home/jenny:/bin/bash
+kobzei:x:1004:1004:Oleksandr Kobzei,,,:/home/kobzei:/bin/bash
+
+[exit=0; expected=0]
+
+[root] $ cat /etc/shadow &gt; 
+&#x27;/home/runner/work/safety/safety/lab4/results/etc-shadow.txt&#x27;; getent shadow 
+jenny kobzei
+jenny:$y$j9T$slNkUOUkuTyHa71qL9fSS0$CCRiNcS4Q3mViTwt5TI7Wae137TTQv1DaXy5U4V0Qg1
+:20767:0:99999:7:::
+kobzei:$y$j9T$jeIkVOyavRohdsadbosFz0$wTPWZe2S6cpgWHhckttOpJQkfBSfTTZeCDpTZYvPKf
+/:20767:0:99999:7:::
+
+[exit=0; expected=0]
+
+[root] $ passwd -S jenny; passwd -S kobzei; stat -c &#x27;%a %U:%G %n&#x27; /etc/passwd 
+/etc/shadow
+jenny P 2026-11-10 0 99999 7 -1
+kobzei P 2026-11-10 0 99999 7 -1
+644 root:root /etc/passwd
+640 root:shadow /etc/shadow
+
+[exit=0; expected=0]</pre><footer>Ubuntu 24.04 | Actions run 42790952005 • Екран 1/1 • Автоматичне перенесення довгих рядків</footer></html>

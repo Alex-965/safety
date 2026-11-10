@@ -1,0 +1,17 @@
+test_bad_key (test_crypto.ClassicalTests.test_bad_key) ... ok
+test_caesar_given (test_crypto.ClassicalTests.test_caesar_given) ... ok
+test_caesar_roundtrip_and_case (test_crypto.ClassicalTests.test_caesar_roundtrip_and_case) ... ok
+test_primality (test_crypto.ClassicalTests.test_primality) ... ok
+test_vigenere_known_vector (test_crypto.ClassicalTests.test_vigenere_known_vector) ... ok
+test_vigenere_punctuation_case_normalization (test_crypto.ClassicalTests.test_vigenere_punctuation_case_normalization) ... ok
+test_generated_key_relationships (test_crypto.RSATests.test_generated_key_relationships) ... ok
+test_invalid_base64_or_partial_block (test_crypto.RSATests.test_invalid_base64_or_partial_block) ... ok
+test_number_100_and_boundaries (test_crypto.RSATests.test_number_100_and_boundaries) ... ok
+test_randomized_oaep (test_crypto.RSATests.test_randomized_oaep) ... ok
+test_tampering_rejected (test_crypto.RSATests.test_tampering_rejected) ... ok
+test_utf8_empty_and_multiple_blocks (test_crypto.RSATests.test_utf8_empty_and_multiple_blocks) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.820s
+
+OK
