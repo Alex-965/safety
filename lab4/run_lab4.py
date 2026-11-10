@@ -17,8 +17,8 @@ def section(title):
     sections.append({"title": title, "commands": []})
 
 def run(command, user="root", expected=0, display=None):
-    process = subprocess.run(["bash", "-c", command] if user == "root" else
-                             ["runuser", "-u", user, "--", "bash", "-c", command],
+    process = subprocess.run(["bash", "-e", "-c", command] if user == "root" else
+                             ["runuser", "-u", user, "--", "bash", "-e", "-c", command],
                              text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              env={**os.environ, "LC_ALL": "C", "TERM": "xterm-256color"})
     record = {"user": user, "command": display or command, "output": process.stdout,
@@ -85,6 +85,9 @@ def main():
             save(False); raise RuntimeError("Password authentication failed")
     section("06 Adapt modern home permissions for baseline")
     run("ls -ld /home/jenny /home/kobzei; stat -c '%a %U:%G %n' /home/jenny /home/kobzei")
+    run("getfacl -cp /home/jenny /home/kobzei")
+    # Hosted runner adds default ACLs. Remove them only from the two new lab homes.
+    run("setfacl -b -k /home/jenny /home/kobzei; getfacl -cp /home/kobzei")
     # Ubuntu 24.04 defaults to 750, unlike the old manual's 755. Set an explicit baseline.
     run("chmod 755 /home/jenny /home/kobzei; ls -ld /home/jenny /home/kobzei")
     section("07 Jenny can traverse kobzei home at 755")
@@ -93,7 +96,7 @@ def main():
     run("cd /home; chmod o-x kobzei; ls -ld kobzei; stat -c '%a %U:%G %n' kobzei")
     run("cd /home; cd kobzei", user="jenny", expected=1)
     section("09 Owner sets absolute mode 705 and creates test file")
-    run("cd /home/kobzei; pwd; cd ..; ls -ld kobzei; chmod 705 kobzei; ls -ld kobzei; cd kobzei; touch test.txt; ls -l test.txt", user="kobzei")
+    run("cd /home/kobzei; pwd; cd ..; ls -ld kobzei; chmod 705 kobzei; ls -ld kobzei; cd kobzei; umask 022; touch test.txt; ls -l test.txt", user="kobzei")
     section("10 Jenny can read but cannot create a file")
     run("cd /home; ls -ld kobzei; cd kobzei; pwd; ls -l test.txt; cat test.txt", user="jenny")
     run("cd /home/kobzei; touch jenny.txt", user="jenny", expected=1)
