@@ -1,0 +1,48 @@
+name: Labs 4 and 5 verified execution
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - lab4/run_lab4.py
+      - lab4/requirements.txt
+      - lab5/crypto_lab.py
+      - lab5/demo.py
+      - lab5/test_crypto.py
+      - lab5/requirements.txt
+      - .github/workflows/labs-4-5.yml
+permissions:
+  contents: read
+jobs:
+  execute:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install isolated Python dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/labvenv"
+          "$RUNNER_TEMP/labvenv/bin/pip" install -r lab4/requirements.txt -r lab5/requirements.txt
+      - name: Lab 4 actual Linux users and permissions
+        env:
+          LAB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -o pipefail
+          mkdir -p lab4/results
+          sudo env GITHUB_ACTIONS=true LAB_RUN_URL="$LAB_RUN_URL" "$RUNNER_TEMP/labvenv/bin/python" lab4/run_lab4.py | tee lab4/results/stdout.log
+      - name: Lab 5 execute four tasks and regression tests
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/labvenv/bin/python" lab5/demo.py | tee lab5/results-run.log
+          cd lab5
+          "$RUNNER_TEMP/labvenv/bin/python" -m unittest -v test_crypto 2>&1 | tee tests-run.log
+      - name: Retain original execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab4-lab5-execution
+          retention-days: 14
+          path: |
+            lab4/results/
+            lab5/results/
+            lab5/results-run.log
+            lab5/tests-run.log
