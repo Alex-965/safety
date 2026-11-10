@@ -1,0 +1,38 @@
+<!doctype html><html><meta charset="utf-8"><title>Terminal</title>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0c0c0c;color:#ccc}
+pre{margin:0;padding:14px 20px;white-space:pre;font:22px/24px Consolas,"Courier New",monospace}</style>
+<pre>root@ubuntu-actions# ls -ld /home/jenny /home/kobzei; stat -c &#x27;%a %U:%G %n&#x27; /home/jenny 
+/home/kobzei
+drwxr-x---+ 8 jenny  jenny  4096 Nov 10 09:29 /home/jenny
+drwxr-x---+ 8 kobzei kobzei 4096 Nov 10 09:29 /home/kobzei
+750 jenny:jenny /home/jenny
+750 kobzei:kobzei /home/kobzei
+root@ubuntu-actions# getfacl -cp /home/jenny /home/kobzei
+user::rwx
+user:runner:rwx #effective:r-x
+group::r-x
+mask::r-x
+other::---
+default:user::rwx
+default:user:runner:rwx
+default:group::r-x
+default:mask::rwx
+default:other::r-x
+
+user::rwx
+user:runner:rwx #effective:r-x
+group::r-x
+mask::r-x
+other::---
+default:user::rwx
+default:user:runner:rwx
+default:group::r-x
+default:mask::rwx
+default:other::r-x
+root@ubuntu-actions# setfacl -b -k /home/jenny /home/kobzei; getfacl -cp /home/kobzei
+user::rwx
+group::r-x
+other::---
+root@ubuntu-actions# chmod 755 /home/jenny /home/kobzei; ls -ld /home/jenny /home/kobzei
+drwxr-xr-x 8 jenny  jenny  4096 Nov 10 09:29 /home/jenny
+drwxr-xr-x 8 kobzei kobzei 4096 Nov 10 09:29 /home/kobzei</pre></html>

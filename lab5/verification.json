@@ -6,8 +6,10 @@
   "cloud_run": "https://github.com/Alex-965/safety/actions/runs/42790952005",
   "cloud_source_commit": "2c848cc31a809b63dc0211d05186d75913959082",
   "evidence_artifact_sha256": "06ac03eab8a5896d795ab3354f57a055f21d8c6c58474f5dd6508a99b12e602b",
-  "report_pages": 11,
+  "report_pages": 8,
   "evidence_note": "Actual execution logs viewed in a read-only terminal journal page and captured with a headless browser.",
-  "screenshot_style": "Plain terminal view; no decorative headers, student metadata, footers or exit annotations.",
-  "report_text_and_pagination": "Unchanged; all 28 pages visually reviewed."
+  "screenshot_style": "Continuous compact console transcript; one screenshot per experiment, without 26-row splits.",
+  "report_text_and_pagination": "User-saved structure preserved; only duplicate continuation blocks, image layout and figure numbering updated.",
+  "screenshots_count": 5,
+  "edited_report_source_sha256": "ffc73223aab8614cb42cccf17f22d188914fd2fe151c356b848ce7660e80dc5b"
 }

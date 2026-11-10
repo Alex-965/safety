@@ -1,11 +1,10 @@
-<!doctype html><html lang="uk"><meta charset="utf-8"><title>Terminal</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#0c0c0c;color:#cccccc;font-family:Consolas,'Courier New',monospace;width:1280px;height:900px;overflow:hidden}pre{margin:0;padding:18px 20px;white-space:pre;font:25px/28px Consolas,'Courier New',monospace}</style>
-<pre>root@ubuntu-actions:~# groupadd HR; getent group HR
+<!doctype html><html><meta charset="utf-8"><title>Terminal</title>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0c0c0c;color:#ccc}
+pre{margin:0;padding:14px 20px;white-space:pre;font:22px/24px Consolas,"Courier New",monospace}</style>
+<pre>root@ubuntu-actions# groupadd HR; getent group HR
 HR:x:1002:
-
-root@ubuntu-actions:~# cat /etc/group &gt; 
-&#x27;/home/runner/work/safety/safety/lab4/results/etc-group.txt&#x27;; tail -n 6 
-/etc/group
+root@ubuntu-actions# cat /etc/group &gt; 
+&#x27;/home/runner/work/safety/safety/lab4/results/etc-group.txt&#x27;; tail -n 6 /etc/group
 mysql:x:116:
 postgres:x:117:
 docker:x:118:runner

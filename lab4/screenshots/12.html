@@ -1,8 +1,8 @@
-<!doctype html><html lang="uk"><meta charset="utf-8"><title>Terminal</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#0c0c0c;color:#cccccc;font-family:Consolas,'Courier New',monospace;width:1280px;height:900px;overflow:hidden}pre{margin:0;padding:18px 20px;white-space:pre;font:25px/28px Consolas,'Courier New',monospace}</style>
-<pre>root@ubuntu-actions:~# id jenny; id kobzei; getent group HR; stat -c &#x27;%a %U:%G 
-%n&#x27; /home/kobzei /home/kobzei/test.txt; test ! -e /home/kobzei/jenny.txt; echo 
-&#x27;jenny.txt absent: PASS&#x27;
+<!doctype html><html><meta charset="utf-8"><title>Terminal</title>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0c0c0c;color:#ccc}
+pre{margin:0;padding:14px 20px;white-space:pre;font:22px/24px Consolas,"Courier New",monospace}</style>
+<pre>root@ubuntu-actions# id jenny; id kobzei; getent group HR; stat -c &#x27;%a %U:%G %n&#x27; /home/kobzei
+ /home/kobzei/test.txt; test ! -e /home/kobzei/jenny.txt; echo &#x27;jenny.txt absent: PASS&#x27;
 uid=1003(jenny) gid=1003(jenny) groups=1003(jenny),100(users),1002(HR)
 uid=1004(kobzei) gid=1004(kobzei) groups=1004(kobzei),100(users),1002(HR)
 HR:x:1002:jenny,kobzei

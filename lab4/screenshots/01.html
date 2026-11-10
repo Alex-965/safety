@@ -1,6 +1,7 @@
-<!doctype html><html lang="uk"><meta charset="utf-8"><title>Terminal</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#0c0c0c;color:#cccccc;font-family:Consolas,'Courier New',monospace;width:1280px;height:900px;overflow:hidden}pre{margin:0;padding:18px 20px;white-space:pre;font:25px/28px Consolas,'Courier New',monospace}</style>
-<pre>root@ubuntu-actions:~# cat /etc/os-release; uname -sr; id; whoami
+<!doctype html><html><meta charset="utf-8"><title>Terminal</title>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0c0c0c;color:#ccc}
+pre{margin:0;padding:14px 20px;white-space:pre;font:22px/24px Consolas,"Courier New",monospace}</style>
+<pre>root@ubuntu-actions# cat /etc/os-release; uname -sr; id; whoami
 PRETTY_NAME=&quot;Ubuntu 24.04.5 LTS&quot;
 NAME=&quot;Ubuntu&quot;
 VERSION_ID=&quot;24.04&quot;
@@ -11,14 +12,12 @@ ID_LIKE=debian
 HOME_URL=&quot;https://www.ubuntu.com/&quot;
 SUPPORT_URL=&quot;https://help.ubuntu.com/&quot;
 BUG_REPORT_URL=&quot;https://bugs.launchpad.net/ubuntu/&quot;
-PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-pol
-icy&quot;
+PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;
 UBUNTU_CODENAME=noble
 LOGO=ubuntu-logo
 Linux 7.0.0-1017-azure
 uid=0(root) gid=0(root) groups=0(root)
 root
-
-runner@ubuntu-actions:~$ sudo -n su -c &#x27;id; whoami&#x27;
+runner@ubuntu-actions$ sudo -n su -c &#x27;id; whoami&#x27;
 uid=0(root) gid=0(root) groups=0(root)
 root</pre></html>

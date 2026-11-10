@@ -1,21 +1,18 @@
-<!doctype html><html lang="uk"><meta charset="utf-8"><title>Terminal</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#0c0c0c;color:#cccccc;font-family:Consolas,'Courier New',monospace;width:1280px;height:900px;overflow:hidden}pre{margin:0;padding:18px 20px;white-space:pre;font:25px/28px Consolas,'Courier New',monospace}</style>
-<pre>root@ubuntu-actions:~# cat /etc/passwd &gt; 
-&#x27;/home/runner/work/safety/safety/lab4/results/etc-passwd.txt&#x27;; getent passwd 
-jenny kobzei
+<!doctype html><html><meta charset="utf-8"><title>Terminal</title>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0c0c0c;color:#ccc}
+pre{margin:0;padding:14px 20px;white-space:pre;font:22px/24px Consolas,"Courier New",monospace}</style>
+<pre>root@ubuntu-actions# cat /etc/passwd &gt; 
+&#x27;/home/runner/work/safety/safety/lab4/results/etc-passwd.txt&#x27;; getent passwd jenny kobzei
 jenny:x:1003:1003:Jenny,,,:/home/jenny:/bin/bash
 kobzei:x:1004:1004:Oleksandr Kobzei,,,:/home/kobzei:/bin/bash
-
-root@ubuntu-actions:~# cat /etc/shadow &gt; 
-&#x27;/home/runner/work/safety/safety/lab4/results/etc-shadow.txt&#x27;; getent shadow 
-jenny kobzei
-jenny:$y$j9T$slNkUOUkuTyHa71qL9fSS0$CCRiNcS4Q3mViTwt5TI7Wae137TTQv1DaXy5U4V0Qg1
-:20767:0:99999:7:::
-kobzei:$y$j9T$jeIkVOyavRohdsadbosFz0$wTPWZe2S6cpgWHhckttOpJQkfBSfTTZeCDpTZYvPKf
-/:20767:0:99999:7:::
-
-root@ubuntu-actions:~# passwd -S jenny; passwd -S kobzei; stat -c &#x27;%a %U:%G %n&#x27;
- /etc/passwd /etc/shadow
+root@ubuntu-actions# cat /etc/shadow &gt; 
+&#x27;/home/runner/work/safety/safety/lab4/results/etc-shadow.txt&#x27;; getent shadow jenny kobzei
+jenny:$y$j9T$slNkUOUkuTyHa71qL9fSS0$CCRiNcS4Q3mViTwt5TI7Wae137TTQv1DaXy5U4V0Qg1:20767:0:99999
+:7:::
+kobzei:$y$j9T$jeIkVOyavRohdsadbosFz0$wTPWZe2S6cpgWHhckttOpJQkfBSfTTZeCDpTZYvPKf/:20767:0:9999
+9:7:::
+root@ubuntu-actions# passwd -S jenny; passwd -S kobzei; stat -c &#x27;%a %U:%G %n&#x27; /etc/passwd 
+/etc/shadow
 jenny P 2026-11-10 0 99999 7 -1
 kobzei P 2026-11-10 0 99999 7 -1
 644 root:root /etc/passwd
